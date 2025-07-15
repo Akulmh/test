@@ -5,6 +5,7 @@ import java.util.*;
  * A student management system that demonstrates legacy Java practices.
  * This system manages student records, grades, and course enrollments.
  * Created in Java 6 style with room for modernization.
+ * Using Github for version control
  */
 public class StudentManagementSystem {
     private Vector<Student> students;

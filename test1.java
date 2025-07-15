@@ -6,6 +6,7 @@ public class FactorialCalculator {
      * @param n The number to calculate factorial for
      * @return The factorial of the input number
      * @throws IllegalArgumentException if the input is negative
+     * Using Github for version control
      */
     public static long calculateFactorial(int n) throws IllegalArgumentException {
         if (n < 0) {

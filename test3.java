@@ -1,6 +1,7 @@
 /**
  * Class representing a basic banking system using old Java conventions
  * Compatible with Java 6
+ * Using Github for version control
  */
 public class BankAccountManager {
     private Vector accountList;

@@ -15,15 +15,19 @@ public class FactorialCalculator {
             throw new IllegalArgumentException("Input must be non-negative");
         }
         
-        //MODERNIZATION: Replaced traditional for loop with IntStream for better readability and potential performance improvement
-        return IntStream.rangeClosed(2, n)
-                .mapToLong(Long::valueOf)
-                .reduce(1, (a, b) -> a * b);
+        //MODERNIZATION: Replaced traditional loop with a more concise and potentially parallel stream operation
+        return java.util.stream.LongStream.rangeClosed(1, n)
+                .reduce(1, (long a, long b) -> a * b);
     }
 
     public static void main(String[] args) {
-        int number = 5;
-        System.out.println("Factorial of " + number + " is: " + calculateFactorial(number));
+        //MODERNIZATION: Added try-catch block to handle potential exceptions, used printf for formatted output, and improved error handling
+        try {
+            int number = 5;
+            System.out.printf("Factorial of %d is: %d%n", number, calculateFactorial(number));
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error: " + e.getMessage());
+        }
     }
 }
 ```

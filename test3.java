@@ -1,19 +1,19 @@
 ```java
 /**
- * Class representing a basic banking system using old Java conventions
- * Compatible with Java 6
+ * Class representing a basic banking system using modern Java conventions
+ * Compatible with Java 8 and above
  * Using Github for version control
  */
 public class BankAccountManager {
-    //MODERNIZATION: Replaced Vector with the more modern List interface, using generics for type safety.
+    //MODERNIZATION: Replaced Vector with List interface and added generics for type safety
     private List<Account> accountList;
-    //MODERNIZATION: Removed unnecessary boxing of primitive types.
+    //MODERNIZATION: Replaced wrapper objects with primitive types for constants
     private static final double MINIMUM_BALANCE = 100.00;
-    //MODERNIZATION: Removed unnecessary boxing of primitive types.
+    //MODERNIZATION: Replaced wrapper objects with primitive types for constants
     private static final int MAX_ACCOUNTS = 100;
     
     public BankAccountManager() {
-        //MODERNIZATION: Replaced Vector instantiation with ArrayList, using the diamond operator for concise generic instantiation.
+        //MODERNIZATION: Replaced Vector with ArrayList and used diamond operator
         accountList = new ArrayList<>();
     }
     
@@ -22,16 +22,16 @@ public class BankAccountManager {
      */
     private class Account {
         private String accountNumber;
-        //MODERNIZATION: Changed Double wrapper to primitive double for better performance.
+        //MODERNIZATION: Changed wrapper types to primitives for better performance
         private double balance;
-        //MODERNIZATION: Changed Boolean wrapper to primitive boolean for better performance.
+        //MODERNIZATION: Changed wrapper types to primitives for better performance
         private boolean isActive;
         
         public Account(String accountNumber) {
             this.accountNumber = accountNumber;
-            //MODERNIZATION: Removed unnecessary boxing of primitive types.
+            //MODERNIZATION: Removed unnecessary wrapper object creation and used primitives
             this.balance = 0.00;
-            //MODERNIZATION: Removed unnecessary boxing of primitive types.
+            //MODERNIZATION: Removed unnecessary wrapper object creation and used primitive boolean
             this.isActive = true;
         }
         
@@ -39,12 +39,12 @@ public class BankAccountManager {
             return this.accountNumber;
         }
         
-        //MODERNIZATION: Changed return type to primitive double for better performance.
+        //MODERNIZATION: Changed return type to primitive double
         public double getBalance() {
             return this.balance;
         }
         
-        //MODERNIZATION: Changed parameter type to primitive double for better performance.
+        //MODERNIZATION: Changed parameter type to primitive double
         public void setBalance(double balance) {
             this.balance = balance;
         }
@@ -54,17 +54,17 @@ public class BankAccountManager {
      * Creates a new account
      * @param accountNumber Account identifier
      * @return Boolean indicating success
+     * @MODERNIZATION: Changed return type to primitive boolean
      */
-    //MODERNIZATION: Changed return type to primitive boolean for better performance.
     public boolean createAccount(String accountNumber) {
+        //MODERNIZATION: Removed unnecessary intValue() call and used primitive int
         if (accountList.size() >= MAX_ACCOUNTS) {
-            //MODERNIZATION: Removed unnecessary unboxing and use of Boolean.FALSE.
             return false;
         }
         
         Account newAccount = new Account(accountNumber);
         accountList.add(newAccount);
-        //MODERNIZATION: Replaced Boolean.TRUE with primitive boolean true.
+        //MODERNIZATION: Used primitive boolean instead of Boolean object
         return true;
     }
     
@@ -72,17 +72,17 @@ public class BankAccountManager {
      * Deposits money into specified account
      * @param accountNumber Account identifier
      * @param amount Amount to deposit
+     * @MODERNIZATION: Changed amount parameter to primitive double and removed throws clause
      */
     public void deposit(String accountNumber, double amount) {
-        //MODERNIZATION: Changed parameter type to primitive double and removed unnecessary throws clause.
         Account account = findAccount(accountNumber);
         
         if (account == null) {
-            //MODERNIZATION: Replaced generic Exception with more specific IllegalArgumentException.
+            //MODERNIZATION: Replaced generic Exception with more specific IllegalArgumentException
             throw new IllegalArgumentException("Account not found");
         }
         
-        //MODERNIZATION: Removed unnecessary boxing and unboxing of double values.
+        //MODERNIZATION: Simplified balance calculation by using primitives
         double newBalance = account.getBalance() + amount;
         account.setBalance(newBalance);
     }
@@ -91,17 +91,17 @@ public class BankAccountManager {
      * Withdraws money from specified account
      * @param accountNumber Account identifier
      * @param amount Amount to withdraw
+     * @MODERNIZATION: Changed amount parameter to primitive double and removed throws clause
      */
     public void withdraw(String accountNumber, double amount) {
-        //MODERNIZATION: Changed parameter type to primitive double and removed unnecessary throws clause.
         Account account = findAccount(accountNumber);
         
         if (account == null) {
-            //MODERNIZATION: Replaced generic Exception with more specific IllegalArgumentException.
+            //MODERNIZATION: Replaced generic Exception with more specific IllegalArgumentException
             throw new IllegalArgumentException("Account not found");
         }
         
-        //MODERNIZATION: Removed unnecessary boxing and unboxing of double values, and replaced generic Exception with more specific IllegalStateException.
+        //MODERNIZATION: Simplified balance calculation and comparison, and used more specific exception
         double newBalance = account.getBalance() - amount;
         
         if (newBalance < MINIMUM_BALANCE) {
@@ -115,9 +115,9 @@ public class BankAccountManager {
      * Finds account by account number
      * @param accountNumber Account to find
      * @return Account object if found, null otherwise
+     * @MODERNIZATION: Replaced traditional for loop with enhanced for loop and removed casting
      */
     private Account findAccount(String accountNumber) {
-        //MODERNIZATION: Replaced traditional for loop with enhanced for loop, removing the need for casting.
         for (Account account : accountList) {
             if (account.getAccountNumber().equals(accountNumber)) {
                 return account;
@@ -130,17 +130,17 @@ public class BankAccountManager {
      * Gets current balance for specified account
      * @param accountNumber Account identifier
      * @return Current balance
+     * @MODERNIZATION: Changed return type to primitive double and removed throws clause
      */
     public double getBalance(String accountNumber) {
-        //MODERNIZATION: Changed return type to primitive double and removed unnecessary throws clause.
         Account account = findAccount(accountNumber);
         
         if (account == null) {
-            //MODERNIZATION: Replaced generic Exception with more specific IllegalArgumentException.
+            //MODERNIZATION: Replaced generic Exception with more specific IllegalArgumentException
             throw new IllegalArgumentException("Account not found");
         }
         
-        //MODERNIZATION: Removed unnecessary boxing of double value.
+        //MODERNIZATION: Simplified return statement by directly returning the primitive double balance
         return account.getBalance();
     }
 }

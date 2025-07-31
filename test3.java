@@ -1,15 +1,19 @@
+```java
 /**
- * Class representing a basic banking system using old Java conventions
- * Compatible with Java 6
- * Using Github for version control
+ * Class representing a basic banking system using modern Java conventions
+ * Compatible with Java 8 and above
  */
 public class BankAccountManager {
-    private Vector accountList;
-    private static final Double MINIMUM_BALANCE = new Double(100.00);
-    private static final Integer MAX_ACCOUNTS = new Integer(100);
+    //MODERNIZATION: Replaced Vector with List<Account> for type safety and better performance.
+    private List<Account> accountList;
+    //MODERNIZATION: Used primitive double instead of Double object for MINIMUM_BALANCE.
+    private static final double MINIMUM_BALANCE = 100.00;
+    //MODERNIZATION: Used primitive int instead of Integer object for MAX_ACCOUNTS.
+    private static final int MAX_ACCOUNTS = 100;
     
     public BankAccountManager() {
-        accountList = new Vector();
+        //MODERNIZATION: Replaced Vector with ArrayList and used the diamond operator for better performance and readability.
+        accountList = new ArrayList<>();
     }
     
     /**
@@ -17,24 +21,30 @@ public class BankAccountManager {
      */
     private class Account {
         private String accountNumber;
-        private Double balance;
-        private Boolean isActive;
+        //MODERNIZATION: Used primitive types instead of wrapper classes for better performance.
+        private double balance;
+        //MODERNIZATION: Used primitive types instead of wrapper classes for better performance.
+        private boolean isActive;
         
         public Account(String accountNumber) {
             this.accountNumber = accountNumber;
-            this.balance = new Double(0.00);
-            this.isActive = Boolean.TRUE;
+            //MODERNIZATION: Used primitive values instead of wrapper objects for better performance.
+            this.balance = 0.00;
+            //MODERNIZATION: Used primitive values instead of wrapper objects for better performance.
+            this.isActive = true;
         }
         
         public String getAccountNumber() {
             return this.accountNumber;
         }
         
-        public Double getBalance() {
+        //MODERNIZATION: Changed return type to primitive double for better performance.
+        public double getBalance() {
             return this.balance;
         }
         
-        public void setBalance(Double balance) {
+        //MODERNIZATION: Changed parameter type to primitive double for better performance.
+        public void setBalance(double balance) {
             this.balance = balance;
         }
     }
@@ -43,32 +53,37 @@ public class BankAccountManager {
      * Creates a new account
      * @param accountNumber Account identifier
      * @return Boolean indicating success
+     * @MODERNIZATION: Changed return type to primitive boolean for better performance.
      */
-    public Boolean createAccount(String accountNumber) {
-        if (accountList.size() >= MAX_ACCOUNTS.intValue()) {
-            return Boolean.FALSE;
+    public boolean createAccount(String accountNumber) {
+        //MODERNIZATION: Removed unnecessary .intValue() call and used primitive boolean value.
+        if (accountList.size() >= MAX_ACCOUNTS) {
+            return false;
         }
         
         Account newAccount = new Account(accountNumber);
         accountList.add(newAccount);
-        return Boolean.TRUE;
+        //MODERNIZATION: Used primitive boolean value instead of Boolean object.
+        return true;
     }
     
     /**
      * Deposits money into specified account
      * @param accountNumber Account identifier
      * @param amount Amount to deposit
-     * @throws Exception If account not found
+     * @throws AccountNotFoundException If account not found
+     * @MODERNIZATION: Changed parameter type to primitive double and used a more specific exception.
      */
-    public void deposit(String accountNumber, Double amount) throws Exception {
+    public void deposit(String accountNumber, double amount) throws AccountNotFoundException {
         Account account = findAccount(accountNumber);
         
+        //MODERNIZATION: Used a more specific exception for better error handling.
         if (account == null) {
-            throw new Exception("Account not found");
+            throw new AccountNotFoundException("Account not found");
         }
         
-        Double newBalance = new Double(account.getBalance().doubleValue() + 
-                                     amount.doubleValue());
+        //MODERNIZATION: Simplified balance calculation using primitive doubles.
+        double newBalance = account.getBalance() + amount;
         account.setBalance(newBalance);
     }
     
@@ -76,20 +91,23 @@ public class BankAccountManager {
      * Withdraws money from specified account
      * @param accountNumber Account identifier
      * @param amount Amount to withdraw
-     * @throws Exception If insufficient funds or account not found
+     * @throws AccountNotFoundException, InsufficientFundsException If account not found or insufficient funds
+     * @MODERNIZATION: Changed parameter type to primitive double and used more specific exceptions.
      */
-    public void withdraw(String accountNumber, Double amount) throws Exception {
+    public void withdraw(String accountNumber, double amount) throws AccountNotFoundException, InsufficientFundsException {
         Account account = findAccount(accountNumber);
         
+        //MODERNIZATION: Used a more specific exception for better error handling.
         if (account == null) {
-            throw new Exception("Account not found");
+            throw new AccountNotFoundException("Account not found");
         }
         
-        Double newBalance = new Double(account.getBalance().doubleValue() - 
-                                     amount.doubleValue());
-                                     
-        if (newBalance.doubleValue() < MINIMUM_BALANCE.doubleValue()) {
-            throw new Exception("Insufficient funds");
+        //MODERNIZATION: Simplified balance calculation using primitive doubles and removed unnecessary .doubleValue() calls.
+        double newBalance = account.getBalance() - amount;
+        
+        if (newBalance < MINIMUM_BALANCE) {
+            //MODERNIZATION: Used a more specific exception for better error handling.
+            throw new InsufficientFundsException("Insufficient funds");
         }
         
         account.setBalance(newBalance);
@@ -99,10 +117,10 @@ public class BankAccountManager {
      * Finds account by account number
      * @param accountNumber Account to find
      * @return Account object if found, null otherwise
+     * @MODERNIZATION: Replaced traditional for loop with enhanced for loop and removed unnecessary casting.
      */
     private Account findAccount(String accountNumber) {
-        for (int i = 0; i < accountList.size(); i++) {
-            Account account = (Account) accountList.elementAt(i);
+        for (Account account : accountList) {
             if (account.getAccountNumber().equals(accountNumber)) {
                 return account;
             }
@@ -114,15 +132,19 @@ public class BankAccountManager {
      * Gets current balance for specified account
      * @param accountNumber Account identifier
      * @return Current balance
-     * @throws Exception If account not found
+     * @throws AccountNotFoundException If account not found
+     * @MODERNIZATION: Changed return type to primitive double and used a more specific exception.
      */
-    public Double getBalance(String accountNumber) throws Exception {
+    public double getBalance(String accountNumber) throws AccountNotFoundException {
         Account account = findAccount(accountNumber);
         
+        //MODERNIZATION: Used a more specific exception for better error handling.
         if (account == null) {
-            throw new Exception("Account not found");
+            throw new AccountNotFoundException("Account not found");
         }
         
-        return new Double(account.getBalance().doubleValue());
+        //MODERNIZATION: Simplified return statement by directly returning the primitive double value.
+        return account.getBalance();
     }
 }
+```

@@ -5,11 +5,11 @@
  * Using Github for version control
  */
 public class BankAccountManager {
-    //MODERNIZATION: Replaced Vector with List<Account> for type safety
+    //MODERNIZATION: Replaced Vector with List interface and added generics for type safety
     private List<Account> accountList;
-    //MODERNIZATION: Used primitive double instead of Double wrapper
+    //MODERNIZATION: Replaced wrapper classes with primitive types for constants
     private static final double MINIMUM_BALANCE = 100.00;
-    //MODERNIZATION: Used primitive int instead of Integer wrapper
+    //MODERNIZATION: Replaced wrapper classes with primitive types for constants
     private static final int MAX_ACCOUNTS = 100;
     
     public BankAccountManager() {
@@ -22,14 +22,14 @@ public class BankAccountManager {
      */
     private class Account {
         private String accountNumber;
-        //MODERNIZATION: Used primitive double instead of Double wrapper
+        //MODERNIZATION: Replaced wrapper classes with primitive types for better performance
         private double balance;
-        //MODERNIZATION: Used primitive boolean instead of Boolean wrapper
+        //MODERNIZATION: Replaced wrapper classes with primitive types for better performance
         private boolean isActive;
         
         public Account(String accountNumber) {
             this.accountNumber = accountNumber;
-            //MODERNIZATION: Used primitive values instead of wrapper classes
+            //MODERNIZATION: Simplified initialization of primitive types
             this.balance = 0.00;
             this.isActive = true;
         }
@@ -56,14 +56,14 @@ public class BankAccountManager {
      */
     //MODERNIZATION: Changed return type to primitive boolean
     public boolean createAccount(String accountNumber) {
-        //MODERNIZATION: Removed unnecessary intValue() call and used primitive boolean
+        //MODERNIZATION: Removed unnecessary .intValue() call and used primitive boolean
         if (accountList.size() >= MAX_ACCOUNTS) {
             return false;
         }
         
         Account newAccount = new Account(accountNumber);
         accountList.add(newAccount);
-        //MODERNIZATION: Used primitive boolean instead of Boolean wrapper
+        //MODERNIZATION: Used primitive boolean instead of Boolean object
         return true;
     }
     
@@ -102,6 +102,7 @@ public class BankAccountManager {
         
         //MODERNIZATION: Simplified balance calculation and comparison, and used more specific exception
         double newBalance = account.getBalance() - amount;
+        
         if (newBalance < MINIMUM_BALANCE) {
             throw new IllegalStateException("Insufficient funds");
         }
